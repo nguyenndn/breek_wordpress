@@ -1,0 +1,102 @@
+@mixin button{
+    display: inline-block;
+	background-color: $green;
+	color: #fff;
+	font-size: 15px;
+	padding: 5px 25px;
+	border: 2px solid transparent;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+    font-family: $title-font-family;
+    border-radius: $border-radius;
+    @include transition;
+	&:hover{
+        color: #fff;
+        background-color: $text-color;
+    }
+    &.small{ font-size: 12px; padding: 5px 15px; }
+    &.medium{ font-size: 17px; }
+    &.large{ font-size: 22px; padding: 8px 25px; font-weight: bold; border-radius: 32px; }
+    &.circle{
+        padding: 7px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-size: 16px;
+        i.fa{ margin: 0; vertical-align: middle; }
+    }
+	&.outline{
+		background-color: transparent;
+		box-shadow: none;
+		border: 2px solid $green;
+        color: $green;
+	}
+	&.outline:hover{
+		color: #fff;
+		background-color: $green;
+    }
+    // By color
+    &.red{
+        background-color: $red;
+        &:hover{
+            transform: translateY(-2px);
+        }
+        &.outline{
+            background-color: transparent;
+            border-color: $red;
+            color: $red;
+        }
+    }
+	&.dark{
+		background-color: $text-color;
+	}
+	&.dark:hover{
+		color: #fff;
+		background-color: $light-gray;
+	}
+	& i.fa{ font-size: 85%; margin-left: 5px; }
+}
+
+.button, .epcl-button{
+    @include button;
+}
+
+/* Global Tags */
+
+div.tags{
+	display: block;
+	&.absolute{
+		position: absolute;
+		right: 0;
+        top: -15px;
+        width: 100%;
+        z-index: 10;
+        text-align: center;
+    }
+    &.no-thumb{ margin-bottom: half($element-padding); margin-top: -38px; }
+	a, span{
+		font-size: 15px;
+		color: #fff;		
+		display: inline-block;
+		padding: 4px 25px;
+		vertical-align: top;
+        border-radius: 3px;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        border-radius: $border-radius;
+        font-family: $title-font-family;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        background-color: $red;
+	}
+	a:hover{
+		transform: translateY(-2px);
+	}
+}
+.ctag{
+    background-color: $red;
+}
+
+/* @end */

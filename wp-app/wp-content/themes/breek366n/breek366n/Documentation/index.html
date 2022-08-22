@@ -1,0 +1,645 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Documentation - Breek for Wordpress</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+<link href="css/prettify-bootstrap.css" rel="stylesheet" type="text/css">
+<!--[if lt IE 9]>
+<script src="js/html5shiv.min.js"></script>
+<![endif]-->
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/google-code-prettify/prettify.js"></script>
+<script type="text/javascript">
+$(function(){
+	/*$('#sidebar ul li.has-submenu').click(function(){
+		$('#sidebar ul li.opened').removeClass('opened');
+		$(this).addClass('opened');
+	});*/
+/*	$('#sidebar ul.submenu li a').click(function(){
+		$('#sidebar ul.submenu li.active').removeClass('active');
+		$(this).parent().addClass('active');
+	});*/
+	var lastId,
+	topMenu = $("#sidebar"),
+	topMenuHeight = topMenu.height(),
+	menuItems = topMenu.find("a"),
+	scrollItems = menuItems.map(function(){
+	  var item = $($(this).attr("href"));
+	  if (item.length) { return item; }
+	});
+	menuItems.click(function(e){
+		//$('#sidebar li').removeClass('active opened');
+	  var href = $(this).attr("href"),
+		  offsetTop = href === "#" ? 0 : $(href).offset().top-20;
+	  $('html, body').stop().animate({ 
+		  scrollTop: offsetTop
+	  }, 300);
+	  $(this).parent().addClass('active');
+	  e.preventDefault();
+	});
+	$(window).scroll(function(){
+	   var fromTop = $(this).scrollTop()+200;
+	   var cur = scrollItems.map(function(){
+		 if ($(this).offset().top < fromTop)
+		   return this;
+	   });
+	   cur = cur[cur.length-1];
+	   var id = cur && cur.length ? cur[0].id : "";
+	   
+	   if (lastId !== id) {
+		   lastId = id;
+		  var elem = menuItems.parent().removeClass("active").end().filter("[href=#"+id+"]");
+		  $('#sidebar li').removeClass('active opened');
+		   if(elem.parents('.has-submenu').length > 0){
+			   var parent = elem.parents('.has-submenu');
+			  // $('#sidebar li.has-submenu').not(parent).removeClass('active opened');
+			 	parent.addClass('opened'); 
+				
+		   }
+		   elem.parent().addClass("active");
+	   }                   
+	});
+	prettyPrint();
+});
+</script>
+</head>
+<body>
+	<!-- start: #wrapper -->
+    <div id="wrapper">
+        <!-- start: .content -->
+        <div class="content">
+            <aside id="sidebar">
+            	<img src="images/logo-small.png" class="logo">
+            	<nav>
+                	<ul class="tabs">
+                    	<li class="active"><a href="#introduction">1. Introduction</a></li>
+                        <li class="has-submenu">
+                        	<a href="#theme-setup">2. Theme Setup</a>
+                            <ul class="submenu">
+                            	<li><a href="#ts-1">2.1. Install the template</a></li>
+                                <li><a href="#ts-2">2.2. Install required plugins / features</a></li>
+                                <li><a href="#ts-3">2.3. Import Demo Content</a></li>
+                                <li><a href="#ts-4">2.4. How to update the Theme</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-submenu">
+                        	<a href="#theme-usage">3. Theme Usage</a>
+                            <ul class="submenu">
+                                <li><a href="#tu-3">3.1 How to create a Home Page</a></li>
+                                <li><a href="#tu-4">3.2 Shortcodes</a></li>
+                            	<li><a href="#tu-1">3.3 Widgets</a></li>
+                                <li><a href="#tu-2">3.4 Post Usage</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-submenu">
+                                <a href="#theme-options">4. Theme Options Panel</a>
+                                <ul class="submenu">
+                                    <li><a href="#to-1">4.1 Subscribe Settings</a></li>
+                                    <li><a href="#to-2">4.2 Header</a></li>
+                                    <li><a href="#to-3">4.3 Footer</a></li>
+                                    <li><a href="#to-4">4.4 Advertising</a></li>
+                                    <li><a href="#to-5">4.5 Styling</a></li>
+                                    <li><a href="#to-6">4.6 Typography</a></li>
+                                    <li><a href="#to-7">4.7 Sidebars</a></li>
+                                    <li><a href="#to-8">4.8 Blog</a></li>
+                                    <li><a href="#to-9">4.9 Social Profiles</a></li>
+                                    <li><a href="#to-10">4.8 Blog</a></li>
+                                </ul>
+                            </li>
+                        <li class="has-submenu">
+                        	<a href="#advanced-setup">5. Advanced Setup</a>
+                            <ul class="submenu">
+                                <li><a href="#as-1">5.1 Translate the theme</a></li>
+                                <li><a href="#as-2">5.2 Syntax Highlighter</a></li>
+                                <li><a href="#as-3">5.3 Child Theme</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#css">6. CSS Styles</a></li>                        
+                        <li><a href="#js">7. Javascript Files</a></li>
+                        <li><a href="#scss">8. Theme Development and<br>Prepos 6 Installation</a></li>
+                        <li class="has-submenu">
+                            <a href="#optimization">9. Optimization (Google Speed)</a>
+                            <ul class="submenu">
+                            	<li><a href="#o-1">9.1 Install Cache Plugin</a></li>
+                                <li><a href="#o-2">9.2 Optimize your Images</a></li>
+                                <li><a href="#o-3">9.3 How to enable AMP</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#fonts">10. Fonts Used</a></li>
+                        <li><a href="#credits">11. Credits</a></li>
+                        <li><a href="#support">12. Support</a></li>
+                    </ul>
+                    <div class="buttons">
+                        <a href="https://themeforest.net/user/estudiopatagon/portfolio?ref=EstudioPatagon" target="_blank" class="button">See our portfolio</a>
+                        <a href="https://estudiopatagon.ticksy.com/" target="_blank" class="button submit">Submit a Ticket</a>
+                    </div>
+                </nav>
+            </aside>
+            <!-- start: .panes -->
+            <div class="text panes">
+            	<!-- start: #introduction -->
+                <div class="section" id="introduction">
+                    <h2>1. Introduction</h2>
+                    <p>Thank you! for buying one of our template, if you find any kind of issue or bug don't hesitate on contact us. </p>
+                    <p>We will resolve your problem as soon as possible.</p>
+                    <h3>Template information:</h3>
+                    <ul class="description">
+                   	  <li><span>Name:</span> <strong>Breek</strong></li>
+                        <li><span>Author:</span> <a href="http://estudiopatagon.com" target="_blank">EstudioPatagon</a></li>
+                        <li><span>Platform:</span> <a href="https://wordpress.org/" target="_blank">Wordpress</a></li>
+                        <li><span>Latest Update:</span> <strong>16 September 2020 - version 3.5.7</strong>                    </li>
+                    </ul>
+                    <h3>Features</h3>
+<ul>
+  <li><strong>Super Light and Modern design.</strong></li>
+  <li><strong>Constantly updated.</strong></li>
+  <li><strong>Translation ready (English and Spanish included).</strong></li>
+  <li><strong>Minified and Optimized code.</strong></li>
+  <li><strong>ACF Pro bundled (save $29).</strong></li>
+  <li><strong>Built with SCSS and pre-compiled with Prepos 6 (Windows and Mac compatible).</strong></li>
+  <li><strong>Dedicated advertising section (below header, before and after post content, custom advertise to place anywhere).</strong></li>
+  <li><strong>Advertising section between grid posts. <a href="http://estudiopatagon.com/themes/wordpress/breek/?ads=1">demo here</a></strong></li>
+  <li><strong>Supports menu with icons</strong></li>
+  <li><strong>Sticky sidebar for Posts</strong></li>
+  <li><strong>Lazy Load for Lists (home pages, archives, categories, etc).</strong></li>
+  <li><strong>Lazy Load for post content.</strong></li>
+  <li><strong>Lazy Load for embed (iframes like Youtube/Vimeo/Soundcloud).</strong></li>
+  <li>HTML5 &amp; CSS3 ready.</li>
+  <li>3 Single post dispositions
+    <ul>
+      <li>Fullwidth: cover for large images, <a href="http://estudiopatagon.com/themes/wordpress/breek/fullwidth/" target="_blank">see here</a>.</li>
+      <li>Standard: image inside the article, <a href="http://estudiopatagon.com/themes/wordpress/breek/classic/" target="_blank">see here</a>.</li>
+      <li>Fullwidth No sidebar: <a href="http://estudiopatagon.com/themes/wordpress/breek/bringing-red-planet-samples-back-is-a-considerable-challenge/" target="_blank">see here</a></li>
+      <li>Classic No sidebar: <a href="http://estudiopatagon.com/themes/wordpress/breek/how-we-choose-to-use-the-moon/" target="_blank">see here</a></li>
+    </ul>
+  </li>
+  <li>No Sidebar Style for Post and Pages <a href="http://estudiopatagon.com/themes/wordpress/breek/features/columns/" target="_blank">see here</a>.</li>
+  <li>Custom Tag page, <a href="http://estudiopatagon.com/themes/wordpress/breek/category/solar-system/" target="_blank">see here</a>.</li>
+  <li>Custom Author page, <a href="http://estudiopatagon.com/themes/wordpress/breek/author/admin/" target="_blank">see here</a>. </li>
+  <li>Custom 404 Page <a href="http://estudiopatagon.com/themes/wordpress/breek/404" target="_blank">see here</a>.</li>
+  <li>About me Widget.</li>
+  <li>Search Widget.</li>
+  <li>Custom Galleries.</li>
+  <li>Advertising sections.</li>
+  <li>Disqus Support.</li>
+  <li>Fully responsive.</li>
+  <li>Video Support (Vimeo, Youtube, etc).</li>
+  <li>Retina Display Ready.</li>
+  <li>Font Awesome icons.</li>
+  <li>Works on Android, Ipad and Iphone.</li>
+  <li>Documentation included.</li>
+  <li>Clean Design.</li>
+  <li>Well Coded.</li>
+  <li>Navigation Menu.</li>
+</ul>
+
+                    <h3>Requirements</h3>
+                    <p><strong>Breek</strong> is a WordPress theme so the basic requirements are the same of <a href="http://wordpress.org/about/requirements/" target="_blank">Wordpress</a></p>
+                </div>
+                <!-- end: #introduction -->
+                <!-- start: #theme-setup -->
+                <div class="section" id="theme-setup">
+                	<h2>2. Theme Setup</h2>
+                    <h3 id="ts-1">2.1. Install the theme</h3>
+                    <p>This guide assumes that you already have a <strong>Wordpress installation ready</strong>. </p>
+                    <h4>Uploading the theme into wp-admin</h4>
+                  <ul>
+                      <li>Login on your admin panel.</li>
+                      <li>Go to Appearance -&gt; Install Themes</li>
+                      <li>Upload -&gt; and "Select file" which will open the File Upload dialog window.</li>
+                      <li>Browse to the folder where you have <strong>wp-breek.zip</strong> and upload it.</li>
+                      <li>Now you can activate the theme.                  </li>
+                  </ul>
+                  <h4>Uploading the theme on custom hosting (FTP)</h4>
+                    <p>The instructions are pretty simple:</p>
+                    <ul>
+                      <li>Connect to your FTP using a FTP software, example <a href="https://filezilla-project.org/">Filezilla</a>.</li>
+                      <li>Unzip the <strong>wp-breek.zip</strong> file on your computer.</li>
+                      <li>Upload the extracted <strong>breek </strong>theme folder into <strong>wp-content / themes</strong> in your wordpress installation.</li>
+                      <li>Login on your wordpress admin panel.</li>
+                      <li>Go to Appearance and activate <strong>breek</strong>.                    </li>
+                    </ul>
+                    <h3 id="ts-2">2.2. Installing required features (step by step)</h3>
+                    <p><strong>1.-</strong> After you activated successfully the template, you will be redirect to the Theme Wizard, so the first step is  click on start:</p>
+                    <p><img src="images/screenshots/wizard-1.png" alt=""/></p>
+                    <p><strong>2.-</strong> If you are planning to add Custom Code changes (PHP or HTML), it is recommended to install the <strong>Child Theme</strong> and add all your changes there.</p>
+                    <p>In case you just need to add a few CSS changes, later you can add them into <strong>Theme options -&gt; Advanced settings -&gt; Custom CSS section.</strong> So you can safely click the <strong>&quot;SKIP&quot;</strong> button for step nº 2.</p>
+                    <p><strong>3.-</strong> Step nº 3, here you can enable <strong>&quot;1 Click Updates&quot;</strong> adding your license information, it is super recommended to fill this section so you can easily receive all updates like any other WordPress Theme or Plugin.</p>
+                    <p>Also the <strong>username</strong> must be the same account where you purchase the product, just to ensure <strong>only you</strong> can use this purchase code.</p>
+                    <p><img src="images/screenshots/wizard-2.png" alt=""/></p>
+                    <p><strong>4.-</strong> Installing required plugins, on this step clicking &quot;advanced&quot; will show the list of plugins that are going to be installed. Only plugins marked with &quot;REQ&quot; are required, so for example &quot;Contact Form 7&quot; is totally optional:</p>
+                    <p><img src="images/screenshots/wizard-3.png" alt=""/></p>
+                    <p>After a success message is displayed, you can start the &quot;demo import&quot; feature, this final step is fully optional. </p>
+                  <p> In any case you want to install any other <strong>recommend/required plugin</strong> you can go to &quot;Appearance -&gt; install plugins&quot;:</p>
+                    <p><img src="images/screenshots/after-required-plugins.png" alt="" width="602" height="510"/></p>
+                    <h3 id="ts-3">2.3. Import Demo Data (optional)</h3>
+                    <p>This step is fully optional, if you already have a working blog, you can <strong>SKIP THIS SECTION</strong> and go directly to <strong> &quot;Theme Usage&quot;.</strong></p>
+                    <p>If you followed all steps from <strong>Theme Wizard</strong> there is a final step so you can import all demo content or just partial content:</p>
+                    <p><img src="images/screenshots/wizard-4.png" alt=""/></p>
+                    <p>If you are starting a new website, it is recommended to check all sections, otherwise depending of what you need you can check 1 or more of the available options.</p>
+                  <p><strong>Note:</strong> if you don't imported any demo data and you changed your mind, you can start a new import process just clicking <strong>EstudioPatagon section -&gt; Impor Demo Content,</strong> that will redirect you to the Final Step of the Theme Wizard:</p>
+                    <p><img src="images/screenshots/demo-import-section.png" alt="" width="272" height="245"/></p>
+                    <h3 id="ts-4">2.4. How to update the theme </h3>
+                    <p><strong>Note: </strong>before updating the theme is it highly recommend to do a backup of your website, in case you did any change directly into <strong>wp-content/themes/breek</strong> or <strong>wp-content/plugins/breek-functions</strong> these 2 folders will be fully replaced. </p>
+                    <p><strong>Note 2:</strong> <strong>wp-content/themes/breek-child</strong> folder will not be replaced or touched in any way, but is stil recommend to Go to Theme options -&gt; Import/export and do a backup of your Theme Options section, clicking &quot;Download Data File&quot;.</p>
+                    <p>On our latests versions we added a simply way to update ours theme The most important is you can check live our Changelog and install the latest version with 1 click.</p>
+                    <p>On your admin section you should see there is a new section named &quot;EstudioPatagon&quot; inside that section you will find &quot;License &amp; Updates&quot;, here you can add all your information to receiver 1 click updates.</p>
+                    <p>The theme will search for updates every 3 days to avoid any negative load on your website, but you can manually click &quot;Check for Updates&quot; to get the very latest information about available updates:</p>
+                  <p><img src="images/screenshots/theme-update-1.png" alt=""/></p>
+                    <p><strong>Super Important:</strong> every time <strong>Breek Theme</strong> is updated you must ensure you have the same version for <strong>Breek Functions plugin. </strong> For example, <strong>Breek Theme v2.7 need at least Breek Functions v2.7 </strong>to work properly.</p>
+                    <h3>2.4.1 Update Core Functions plugin</h3>
+                    <p>After every <strong>theme update</strong> you must go the <strong>Plugins</strong> section and click on &quot;Update Required&quot;:</p>
+                    <p><img src="images/screenshots/theme-update-2.png" alt="" width="640" height="324"/></p>
+                    <p><img src="images/screenshots/theme-update-3.png" alt="" width="1219" height="505"/></p>
+                    <p>This will update our <strong>Theme Core</strong> and will add all required data and new functions/features depending of our changelog.</p>
+                    <h4>Periodic Theme Updates</h4>
+                  <p>Our themes will periodic check for updates, so you can also update the theme directly from <strong>&quot;Appearance -&gt; Themes&quot;</strong> or from <strong>&quot;Dashboard -&gt; Updates&quot;</strong>:</p>
+                  <p><img src="images/screenshots/theme-update-4.png" alt="" width="1315" height="560"/></p>
+                  <h4>Assign the correct amount of posts to see the grid layout</h4>
+                    <p>By default Wordpress show your latest 10 posts as your home, so it is recommended to change to 9, 6 or 12 always as multiple of 3.</p>
+                    <ul>
+                      <li>Go to Settings.</li>
+                      <li>Click on Reading.</li>
+                      <li>Finally change the posts limit like the next screenshot:</li>
+                    </ul>
+                    <p><img src="images/screenshots/post-limit.png" alt=""/></p>
+                    <h2 id="theme-usage">3. Theme Usage </h2>
+                    <h3 id="tu-3">3.1. Page Usage: how to create a homepage</h3>
+                    <p>There are 3 types of pages that you could use in any place that you want:</p>
+                    <ul>
+                      <li>HomePage (for your latest articles)</li>
+                      <li>Default Page (for any kind of content)</li>
+                      <li>Fullwidth (for any kind of content but without sidebar)</li>
+                    </ul>
+                    <p>The most important page with some extra fields is the Home and after you select on <strong>Page Attributes -&gt; Template -&gt; Home, </strong>you will see something like this:</p>
+                  <p><img src="images/screenshots/page-usage.png" alt=""/></p>
+                    <p>There is a basic builder on the left side, this will help you to create different kind of layouts without any effort. It is recommendable to add some advertising + posts or carousel + posts modules to build a full home page. This builder has the drag&amp;drop functionality and you can reorder any module.</p>
+                    <p>Finally set that page as Home on Settings -&gt; reading, like the next screenshot:<img src="images/screenshots/change-home.jpg" alt=""/></p>
+                    <h4>How to create a Home Page with sidebar:</h4>
+                    <ul>
+                      <li>Create a new page.</li>
+                      <li>Set the page template as "Home" and add a new module "Grid with sidebar", like this: </li>
+                    </ul>
+                    <p><img src="images/screenshots/grid-with-sidebar.jpg" alt=""/></p>
+                    <ul>
+                      <li>Finally set that page as Home on Settings -&gt; reading:                       </li>
+                    </ul>
+                    <p><img src="images/screenshots/change-home.jpg" alt=""/></p>
+                    <ul>
+                      <li>Same works for classic posts if you want that layout or build any other custom home page.</li>
+                    </ul>
+                    <p>As you can see in this theme, we are not using any page builder because slow down a little the speed and the Google Page Score. Anyway, Breek will work with any Page Builder that you want to use, for example we recommend Elementor (it's free and the speed is quite good).</p>
+                    <p>If any of the available modules doesn't fit your needs, we recommend you to <a href="https://estudiopatagon.ticksy.com/" target="_blank">submit a ticket</a> and we will check your request (maybe we can code a new global module for all our customers).</p>
+                    <h3 id="tu-4">3.2. Shortcodes</h3>
+                    <p>Breek includes an easy way to add some basic shortcodes. Inside the main editor there is a custom button:</p>
+                    <p><img src="images/screenshots/shortcodes.png" alt=""/></p>
+                    <p>After you click that button a custom dialog will be opened. On the left side you can select what type of shortcode you need to generate and finally just fill the required fields.</p>
+                  <p>The must used shortcode is the button, here is an example of how should be filled:</p>
+                    <p><img src="images/screenshots/shortcode2.png" alt=""/></p>
+                    <h3 id="tu-1">3.3. Widgets</h3>
+                    <p>Breek is compatible with all  standards widgets available on Wordpress, anyway, we already includes a set of custom widgets to complement the template. The full list is:</p>
+                    <ul>
+                      <li><strong>125x125 ADS:</strong> usefull if you want to create a grid of advertising sections</li>
+                      <li><strong>Flickr Gallery:</strong> display a grid of images from your Flickr account</li>
+                      <li><strong>Fluids ADS: </strong>display only 1 advertise with a max of 280px of width.</li>
+                      <li><strong>Posts by Category:</strong> custom list of posts filtered by a certain category.</li>
+                      <li><strong>Recent Posts with image:</strong> display recent or random posts.</li>
+                      <li><strong>Recent Tweets: </strong>latest Tweets from any twitter account.</li>
+                      <li><strong>Social: </strong>display your social profiles (you must set your profiles on theme options panel -&gt; social profiles)</li>
+                      <li><strong>Video:</strong> Custom Youtube/Vimeo video.</li>
+                    </ul>
+                    <p>There are 2 important places to add widgets:</p>
+                    <ul>
+                      <li><strong>Default Sidebar: </strong>this is the main widget area for articles and pages.</li>
+                      <li><strong>Footer:</strong> this is a global content area that will appear in every page, it is recommendable to use a set of 3 widgets and a max of 6 widgets.</li>
+                    </ul>
+                    <p>You can add multiple custom sidebars on <strong>Theme Options -&gt; Sidebars</strong></p>
+                    <h3 id="tu-2">3.4. Post Usage</h3>
+                    <p>The post usage is pretty simple, after you click <strong>Add new</strong> on post section, you will see something like the next screenshot:</p>
+                  <p><img src="images/screenshots/post-usage.png" alt=""/></p>
+                    <ol>
+                      <li>First, enter your title.</li>
+                      <li>Add your content.</li>
+                      <li>Select the post format, usually is standard (with an image).</li>
+                      <li>Select or add the most appropiate category.</li>
+                      <li>Select the post style and if the post will show the default sidebar.</li>
+                      <li>Set a featured image.</li>
+                      <li>Click Publish.</li>
+                      <li>Optional, you enable download resources and  add an url for your download button.</li>
+                    </ol>
+                    <h4>Post formats</h4>
+                    <p>It is important to know, whenever the post format is changed on the right sidebar, it wil appear new custom fields on the left side (below the main content editor):</p>
+                    <p><img src="images/screenshots/post-gallery.png" alt=""/></p>
+                    <p>In the last screenshot, you will see the post format gallery was selected and we could add new images just clicking on <strong>Add to gallery </strong>(this button will open your media library and you can select any image that you want)</p>
+                  <p><strong>IMPORTANT: </strong>it is highly recommended to always set a featured image whichever is your post format. For example if you select Video format, on small post list (sidebar) you will see a small image instead of a video:</p>
+                  <p><img src="images/screenshots/post-video.png" alt=""/></p>
+                  <h2 id="theme-options">4. Theme Options Panel                      </h2>
+                      <p>Breek includes a powerfull options panel, so you can easily change the main options of the template. This panel is located at the bottom of the wp-admin sidebar:</p>
+                      <p><img src="images/screenshots/theme-options.png" alt=""/> </p>
+                      <p>This page is really easy to use, is just like any form inside the wp-admin, you must click/change the option that you prefer and finally click on <strong>save changes.</strong></p>
+                      <p><strong><img src="images/screenshots/save-theme-options.png" alt=""/></strong></p>
+                      <p>If you are experiencing any kind of problems with the theme options, you can always click <strong>Reset section </strong>(this will reset the current active tab) or even you can Reset All options (all tabs inside the theme options panel).</p>
+                      <p>Before you Reset all the options it is important to create a backup of your current options:</p>
+                      <ul>
+                        <li>Go to theme options -&gt; Import/Export</li>
+                        <li>Click on <strong>Download Data File</strong></li>
+                      </ul>
+                      <p><img src="images/screenshots/export-theme-options.png" alt=""/></p>
+                      <p>This will download a backup of your current options, so in any case you want to go back, you can click <strong>Import from File </strong>and paste all the content inside redux_options.json file.</p>
+                      <h3 id="to-1">4.1. Subscribe Settings</h3>
+                      <p>Here you can change subscribe settings to enable the top subscribe button on the header section.</p>
+                      <p>First of all you must have a Mailchimp Account, if you don't want to use the subscribe form, just leave blank this input field an disable the <strong>display subscribe button.</strong></p>
+                      <p><img src="images/screenshots/subscribe-theme-options.png" alt=""/></p>
+                      <p>If you already have a Mailchimp Account, you must follow the next steps:</p>
+                      <ul>
+                        <li>Login into <a href="https://mailchimp.com/">https://mailchimp.com/</a></li>
+                        <li>Click on <strong>Lists </strong>on the top menu</li>
+                        <li>You must have a created list before to do the next step, if not, you must create a new one clicking on <strong>Create list button</strong></li>
+                        <li>On the right side of your created list, you will see a submenu, click on <strong>Signup forms</strong>                      </li>
+                      </ul>
+                      <p><strong><img src="images/screenshots/mailchimp2.png" alt=""/></strong></p>
+                      <p>Select form builder.</p>
+                      <p><img src="images/screenshots/mailchimp3.png" alt=""/></p>
+                      <ul>
+                        <li>When you finish to edit your form, you will see an input text box on the top with the short url, something like: http://eepurl.com/dxHIUz                      </li>
+                      </ul>
+                      <p><img src="images/screenshots/mailchimp4.png" alt=""/></p>
+                      <ul>
+                        <li>You must paste that url into <strong>Theme Options -&gt; Subscribe Settings -&gt; Subscribe URL</strong>.</li>
+                      </ul>
+                      <p><strong>Note: </strong>if you are using any other subscribe website, you can paste that URL as well it will work for any URL you paste.</p>
+                      <h3 id="to-2">4.2. Header</h3>
+                      <p>On header tab you can change the appearance of the Header, it is important to know there is some hidden options that will be displayed only on certain cases, for example:</p>
+                  <p><img src="images/screenshots/header-advertising.png" alt=""/></p>
+                      <p>If you select Header Layout -&gt; Advertising Area, you will see extra fields like the image and advertising URL.</p>
+                      <h3 id="to-3">4.3. Footer</h3>
+                      <p>Just secondary options like copyright and a custom logo (only for footer) can be added here.                      </p>
+                      <h3 id="to-4">4.4. Advertising</h3>
+                      <p>Here you can manipulate Advertising from all sections. The only ads section that will not be displayed automatically is the &quot;Custom ADS shortcode&quot;, that will generate a custom ads that can be used anywhere inside your website, for example: </p>
+                      <p><img src="images/screenshots/custom-ads.png" alt=""/></p>
+                      <p>After you fill all required fields, you can paste that shortcode inside any <strong>post</strong> or <strong>page.</strong>                      </p>
+                      <h3 id="to-5">4.5. Styling</h3>
+                      <p>Usefull if you want to change the main colors of the template, if you need to add some extra changes it is recommended to use advanced settings -&gt; custom css box.</p>
+                      <h3 id="to-6">4.6. Typography</h3>
+                      <p>Here you can change current fonts used for primary texts and primary titles, if you don't want to change any font, just leave everything in blank.</p>
+                      <p>The Article titles font size only applies when you are viewing the <strong>content of an article</strong>, not homepages, archives or any other page.                      </p>
+                      <h3 id="to-7">4.7. Sidebars</h3>
+                      <p>This panel is fully optional, you can add custom sidebars that can be used on your pages, for example:</p>
+                      <p><img src="images/screenshots/custom-sidebar.png" alt=""/></p>
+                      <ul>
+                        <li>.Click on <strong>Add More</strong></li>
+                        <li>Now you will see an input text field, here you must name you custom sidebar (with an unique name)</li>
+                        <li>Click <strong>Save Changes</strong></li>
+                        <li>Go to appearance -&gt; Widgets</li>
+                        <li>Now you will see your custom sidebar to use in any page that you want.</li>
+                      </ul>
+                      <p><img src="images/screenshots/custom-sidebar2.png" alt=""/></p>
+                      <p>The custom sidebar will appear on your pages at the botom on <strong>General Information box.</strong> You must set &quot;Enabled&quot; the sidebar option in order to see the Sidebar List.</p>
+                      <p><strong><img src="images/screenshots/custom-sidebar3.png" alt=""/></strong></p>
+                      <h3 id="to-8">4.8 Blog</h3>
+                      <p>All these options affects Single Articles (content inside any article), the only important option is if you want to use <strong>Disqus</strong> Platform instead of self hosted comments you must follow the next steps:</p>
+                      <ul>
+                        <li>Select Disqus instead of self hosted.</li>
+                        <li>Add your Disqus ID</li>
+                        <li>Click <strong>Save Changes</strong></li>
+                      </ul>
+                      <p><strong><img src="images/screenshots/disqus-option.png" alt=""/></strong></p>
+                      <h4>How to get your Disqus ID</h4>
+                      <p>To get the correct <strong>Disqus ID, </strong>you must register and create a new site on the next url: <a href="https://disqus.com/admin/create/" target="_blank">https://disqus.com/admin/create/ </a></p>
+                      <p><img src="images/screenshots/disqus-create.png" alt=""/></p>
+                      <p>After you successfully created your site, you will see your Disqus ID on the Browser URL field, like this:</p>
+                      <p><img src="images/screenshots/disqus-id.png" alt=""/></p>
+                      <h3 id="to-9">4.9. Social Profiles</h3>
+                  <p>In this section the social profiles will be used on our custom widget &quot;<strong>(EP) Social&quot;,</strong> so it is required to fill your current profiles before the widget is added on any sidebar.                  </p>
+                  <h3 id="to-10">4.10. Advanced settings</h3>
+                      <p>Just a few textarea boxes to include your Custom CSS or Javascript if needed.</p>
+                      <p>If you are a developer and you are actually using ACF to create Custom fields, you can enable ACF on your admin menu (by default is disabled).</p>
+                      <h2 id="advanced-setup">5. Advanced Setup                      </h2>
+                      <h3 id="as-1">5.1. How translate the theme</h3>
+                      <p>You can translate the template to any language that you want using the files located at <strong>breek/languages </strong>folder:</p>
+                  <h4>Translating Breek with POEDIT:</h4>
+                      <ul>
+                        <li>Search for <strong>breek.pot </strong>(inside <strong>breek/language</strong>s folder).</li>
+                        <li>You can use <a href="http://www.poedit.net/">POEdit</a> to load this file.</li>
+                        <li>Click on Open you will see a dialog like this.                      </li>
+                      </ul>
+                      <p><img src="images/screenshots/translate.png" alt="" width="635" height="224"/></p>
+                      <ul>
+                        <li>Click on create new translation at the bottom of the application.</li>
+                        <li>Select the language that you want, for example: french.</li>
+                        <li>Use the translation field to make replacements.</li>
+                        <li>When you are ready, go to File -&gt; Save as then save the file with your <a href="http://wpcentral.io/internationalization/" target="_blank">wordpress locale code</a> inside breek/languages folder. Example: if you are working with a french wordpress installation your file name will be <strong>fr_FR.po</strong></li>
+                        <li>Go to your server via FTP, and upload the language files into your theme (located at wp-content/themes/breek/languages).                      </li>
+                      </ul>
+                      <h3 id="as-2">5.2. Syntax Highlighter</h3>
+                      <p>Breek supports code highlighting via Prism Plugin: you can check the plugin <a href="https://prismjs.com/" target="_blank">documentation here.</a></p>
+                      <p>If you want to highlight your code, you must always use <code>&lt;pre class=&quot;language-X&quot;&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</code> tags, where X can be: html, css, js, php, etc.</p>
+                      <p>Highlight HTML example:</p>
+                      <p><img src="images/screenshots/code.png" alt=""/></p>
+                      <p>Line numbers class is optional, so if you dont want numbered lines just use <code>&lt;pre class=&quot;language-html&quot;&gt;&lt;/pre&gt;</code></p>
+                      <p><strong>Important:</strong> you must always use &lt;pre&gt;&lt;code&gt;your code&lt;/code&gt;&lt;/pre&gt; wrappers</p>
+                      <p><strong>Note: </strong>if you are using <strong>Gutenberg</strong>, just add the Custom HTML block and inside &lt;pre&gt;&lt;code&gt; tags.</p>
+                      <h3 id="as-3">5.3. Child Theme</h3>
+                      <p>Breek includes a child theme to make the updates easier.</p>
+                      <p>If you are planning to do several CSS changes, it is highly recommendable to do these changes inside a <strong>Child Theme, </strong>so you will never loose these changes.</p>
+                  <p>The steps are pretty simple:</p>
+                      <ul>
+                        <li>Upload<strong> wp-breek.zip</strong> into wp-admin -&gt; appearance.</li>
+                        <li>Activate Breek.</li>
+                        <li>After activated, you must upload<strong> wp-breek-child.zip </strong>into wp-admin -&gt; appearance.</li>
+                        <li>You can edit whatever CSS you want or PHP into functions.php.                      </li>
+                      </ul>
+                      <h2 id="css">6. CSS Styles</h2>
+                      <p>This project uses the following .css files for development:</p>
+                      <ul>
+                        <li><em>assets/css/font-awesome.min.css</em> - font awesome icons.</li>
+                        <li><em>assets/css/grids-ie.css</em> - Unsemantic grids for IE.</li>
+                        <li><em>assets/css/jquery.magnific-popup.css</em> - MagnificPopup jQuery Lightbox..</li>
+                        <li><em>assets/css/tooltipster.css</em> - Main tooltipter assets.</li>
+                        <li><em>assets/css/prism.css</em> - Syntax Highlighter styles.</li>
+                        <li><em>assets/scss</em> - Main project styles, this folder includes: reset, grids, template style and responsive media queries.</li>
+                      </ul>
+                      <p>In production mode we use the next minified CSS files:</p>
+                      <ul>
+                        <li><em>assets/dist/plugins.min.css</em> - all external plugins in one large file used in the template.</li>
+                        <li><em>assets/dist/style.min.css</em>- Main project styles minified and optimized.</li>
+                      </ul>
+                  <h2 id="js">7. Javascript Files </h2>
+                      <h3>Plugins and libraries</h3>
+                      <h4>Development mode</h4>
+                      <ul>
+                        <li><em>jQuery</em> - jQuery <a href="http://jquery.com" target="_blank">http://jquery.com</a></li>
+                        <li><em>assets/js/jquery.lazyload.js</em> - LazyLoad for images <a href="http://jquery.eisbehr.de/lazy" target="_blank">http://jquery.eisbehr.de/lazy</a></li>
+                        <li><em>assets/js/jquery.sticky.js</em> - Sticky menu <a href="http://labs.anthonygarand.com/sticky" target="_blank">http://labs.anthonygarand.com/sticky</a></li>
+                        <li><em>assets/js/jquery.sticky-sidebar.min.js</em> - Sticky Sidebar <a href="https://github.com/abouolia/sticky-sidebar" target="_blank">https://github.com/abouolia/sticky-sidebar</a></li>
+                        <li><em>assets/js/jquery.magnific-popup.min.js -</em> jQuery Lightbox <a href="http://fancyapps.com/fancybox/" target="_blank">http://dimsemenov.com/plugins/magnific-popup/</a></li>
+                        <li><em>assets/js/jflickrfeed.min.js</em> - Flickr Feed <a href="http://labs.anthonygarand.com/sticky" target="_blank">http://www.newmediacampaigns.com/page/jquery-flickr-plugin</a></li>
+                        <li><em>assets/js/pace.min.js</em>. - Minimalistic Loader <a href="http://fitvidsjs.com/" target="_blank"> http://github.hubspot.com/pace/docs/welcome/</a></li>
+                        <li><em>assets/js/jquery.tooltipster.min.js</em> - Tooltip Utility <a href="http://iamceege.github.io/tooltipster/" target="_blank">http://iamceege.github.io/tooltipster/</a></li>
+                        <li><em>assets/js/functions.js</em> - Main javascript functions for the project</li>
+                        <li><em>assets/js/scripts.js</em> - This file will include all JS files and it will be compiled with Prepos 6.</li>
+                  </ul>
+                      <h4>Production</h4>
+                      <ul>
+                        <li><em>assets/dist/scripts.min.js</em> - all external plugins and functions in one large file used in the template.                      </li>
+                      </ul>
+                      <p><strong>IMPORTANT: </strong>if you are a developer and you need to ADD JS changes, we recomment you to edit functions.js and use Prepos 6 to autocompile your code changes<strong>.</strong></p>
+                      <h2 id="scss">8. Theme Development</h2>
+                      <p>Breek is using a precompiler for SCSS and Javascript files, this means everytime one of these files (inside assets) changed, it will be compiled into a minified version on <strong>assets/dist</strong> folder.</p>
+                      <p>For example,If you want to do heavy changes to CSS, you must follow the next steps:</p>
+                      <p><strong>REQUIRED:</strong> Go to Theme Options -> optimization and disable "Optimization" so after every save you will see all your changes immediately.</p>
+                      <p><img src="images/screenshots/disable-optimization.png" alt=""/></p>                      
+                      <p><strong>1.-</strong> Unzip wp-breek.zip (this is the template only file) and remember where is the folder location.                      </p>
+                      <p><strong>2.-</strong> Install the compiler, we recommend you to use Prepos 6, you can <a href="https://prepros.io/downloads" target="_blank">download it here.</a></p>
+                      <p><strong>3.-</strong> After installed you must see a window like this (just click continue trial):</p>
+                      <p><img src="images/screenshots/prepos-1.png" alt=""/></p>
+                      <p>3.-Click on &quot;Add Project&quot; on the left bottom side.</p>
+                      <p><img src="images/screenshots/prepos-2.png" alt=""/></p>
+                      <p><strong>4.- </strong>Search for <strong>breek folder</strong> (where you already unziped the project) and search for<strong> &quot;assets&quot;</strong> folder.</p>
+                      <p><img src="images/screenshots/prepos-3.png" alt="" width="1047" height="682"/></p>
+                      <p>5.- Click on <strong>config icon -&gt; refresh</strong>, this will load Prepos 6 Config file inside theme, so everytime you save a SCSS or JS file, it will be minified and saved into breek/assets/dist folder.</p>
+                      <p><img src="images/screenshots/prepos-load-config.png" alt="" width="921" height="584"/></p>
+                      <p><strong>6.- </strong>Open <strong>breek/assets/scss/</strong> and add your changes, the most important CSS styles are inside base/_style.scss file for example, if you want to edit the main color, you can edit _settings.scss</p>
+                      <p><img src="images/screenshots/prepros-4.png" alt=""/></p>
+                      <p>On this screenshot we already changed $red variable to a dark blue color at line nº 22.</p>
+                      <p><strong>7.- </strong>After you save settings file, you will see a notification if there isn't any error:</p>
+                      <p><img src="images/screenshots/prepros-notification.png" alt=""/></p>
+                      <p><strong>8.- </strong>After all your changes are done, copy all content from <b>breek/assets/dist/style.min.css</b> into <b>breek/partials/critical-css.php</b> to maintain all the speed benefits.</p>
+                      <p><strong>9.- </strong>Zip Breek Folder and reupload into your Wordpress Installation.</p>
+                      <h3>8.1 How to remove minified scripts or css libraries</h3>
+                      <p>Sometimes you want to remove a specific library from our theme, the solution is pretty simple:</p>
+                      <p>1.- Prepos 6 must be installed and <strong>prepos-6.config</strong> must be properly imported (check section <strong>number 8</strong>).</p>
+                      <p>2.- If you want to remove Javascript, just open<strong> /assets/js/scripts.js</strong> file and remove the library that you don't need anymore, for example:</p>
+                      <div>
+                        <pre>&nbsp;//@prepros-prepend prism.min.js</pre>
+                      </div>
+                      <p>Removing this line, will disable prism syntax highlighter. After that just save your file and you will a success message (a green face).</p>
+                      <p>It is recommended to check if there is any dependent function inside <strong> /assets/js/functions.js</strong> to avoid any javascript error.</p>
+                      <p>3.- If you want to remove CSS libraries, just open <strong>/assets/scss/plugins.scss</strong> and remove all the @import line, for example:</p>
+                      <div>
+                        <pre>&nbsp;@import "plugins/prism";</pre>
+                      </div>
+                      <p>That will remove prism CSS, after that, just save your file and you will see a success message.</p>
+                      <h2 id="optimization">9. Optimization</h2>
+                  <p>This section will explain the basics concepts of optimization to get the highest score on <strong>Google Page Speed</strong> test.</p>
+                  <h4>Factors that could affect the speed</h4>
+                  <ol>
+                    <li>The amount of plugins could affect your server speed, for example if you have <strong>a lot of plugins</strong>, that will add CPU load to your website, and that will have a negative impact on Google Page Score, so it is recommended to keep a low amount.</li>
+                    <li>Avoid using PNG or GIF images, they are not optimized and will affect the score.</li>
+                    <li>External scripts could have a very negative impact on your website (this mean every time your website is loaded, it must wait until the third party server render the content) a good example is Adsense and Iframes in general (like Facebook, Twitter, etc).</li>
+                    <li>Your server could have a low amount of RAM assigned. </li>
+                  </ol>
+                  <h4>How to reduce the negative factors:</h4>
+                  <ol>
+                    <li><strong>Reduce the amount of plugins installed</strong>, if you are not using one plugin or the benefits to keep it activated are not good enough, it is recommended to deactivate them.</li>
+                    <li>Always use <strong>JPG images</strong> and check our <a href="#o-2">Optimize Image section.</a></li>
+                    <li>If you want to use <strong>Advertising</strong>, check our <strong>Lazy Adsense </strong>or<strong> Async Scripts</strong> solutions (inside Theme Options -&gt; Optimization) to reduce the negative impact. Also enable <strong>Lazy Load for Iframes</strong> on <strong>Theme Options -&gt; optimization tab.</strong></li>
+                    <li>Check you have enough RAM on your front-end, you can easily check it on <strong>&quot;EstudioPatagon -&gt; Welcome Page&quot;</strong></li>
+                    <li>Install a cache plugin, some servers will work better with <strong>Autoptimize only </strong>and others with <strong>W3 Total Cache</strong>.</li>
+                  </ol>
+                      <h3 id="o-1">9.1 Install Cache Plugin</h3>
+                      <p><strong>Important:</strong> first try some tests <strong>without cache plugin</strong> if you are using only our required plugins probably you will not need any cache plugins., it is recommended to install <strong>Autoptimize</strong> if you are using multiple plugins and they are not optimized and minified..</p>
+                      <p><strong>Note 2: </strong>W3 total cache is recommended for really large websites (lots of post/pages and plugins) but you will not get the best results.</p>
+                      <h4>Installing Autoptimize (minify and reduce page weight):</h4>
+                      <ul>
+                        <li>Go to plugins sections</li>
+                        <li>Click <strong>Add new</strong></li>
+                        <li>Search for &quot;<strong>Autoptimize</strong>&quot; and install it</li>
+                      </ul>
+                      <p><img src="images/screenshots/autoptimize-install.png" alt="2"></p>
+                      <ul>
+                        <li><strong>Go to Settings -&gt; Autoptimize and use the next config</strong></li>
+                      </ul>
+                  <p><img src="images/screenshots/autoptimize-1.jpg" alt="1"><strong>Optional: </strong>On the &quot;Extra&quot; tab, you can remove Emojis if you don't need them (that will reduce some Javascript and CSS requests).</p>
+                      <h4>Installing W3 Total Cache (optional)</h4>
+                      <p>As you know there are a lot of cache plugins available for WordPress, but we will recommend you <strong>W3 Total Cache</strong> in this case, this plugin has a good sort of options and you can import a config file easily.                      </p>
+                      <ul>
+                        <li>Go to plugins sections</li>
+                        <li>Click <strong>Add new</strong></li>
+                        <li>Search for W3 Total Cache and install it</li>
+                  </ul>
+                      <p><img src="images/screenshots/cache.png" alt=""/></p>
+                      <ul>
+                        <li>After activated you will see a new section <strong>Performance</strong> on your left sidebar.</li>
+                        <li>Click on <strong>Performance -&gt; General Settings </strong>and go to the bottom of that page.</li>
+                        <li>You will se an import/export section, just click on <strong>Select File </strong>and search for w3-total-cache-config.json (this file is located on <strong>Demo Content</strong> folder after you unzip the full template from Themeforest)</li>
+                      </ul>
+                      <p><img src="images/screenshots/cache2.png" alt=""/></p>
+                      <ul>
+                        <li>Finally you must enable theme optimization options.</li>
+                      </ul>
+                      <p><img src="images/screenshots/theme-optimization.png" alt=""/></p>
+                      <p><strong>IMPORTANT: </strong>if you have any error on the javascript console, you must disable jQuery move to Footer option.</p>
+                  <h3 id="o-2">9.2 Image Optimization</h3>
+                  <p>There is a custom field on every post where you can upload optimized images (compressed), so it is highly recommendable to fill that field with the sizes described below:</p>
+                  <p>If you are using grid posts as home page, you must use <strong>680x500px</strong></p>
+                  <p>If you are using classic posts as home page, you must use: <strong>850x450px</strong></p>
+                  <p><img src="images/screenshots/optimized-image.png" alt=""/></p>
+                  <p>There is a lot of recommeded tools to compress images, if you don't want to loss image quality, just skip this section.</p>
+                  <h4>Highest compression tool: Toolur</h4>
+                  <p>Website: <a href="http://compressimage.toolur.com/">http://compressimage.toolur.com/</a></p>
+                  <p>We tested several compression tools and toolur online, is one of the best if you want to get 0 errors on Google Insight.</p>
+                  <p><strong>Recommended options:</strong></p>
+                  <ul>
+                    <li>Compression method: C</li>
+                    <li>Image Quality: 70%</li>
+                    <li>Don't resize and don't enlarge images.</li>
+                  </ul>
+                  <p><img src="images/screenshots/toolur.jpg" alt=""/></p>
+                  <h4>TinyPNG: good quality and weight balance</h4>
+                  <p>TinyPNG is one of the most used compressor in the web, has a very basic interface and you will lost almost 10 - 15% quality. Its is highly recommended if you want to optimize your images without loosing quality.</p>
+                  <p>Website: <a href="https://tinypng.com/" target="_blank">https://tinypng.com/</a></p>
+                  <h4>FileOptimizer: desktop APP</h4>
+                  <p>This application has the a good balance pretty closer like TinyPNG but as a desktop app.</p>
+                  <p>Website:<a href="https://sourceforge.net/projects/nikkhokkho/files/FileOptimizer/" target="_blank"> https://sourceforge.net/projects/nikkhokkho/files/FileOptimizer/</a></p>
+                  <p>The only one important thing, is to enable &quot;allow lossy optimizations&quot;:</p>
+                  <p><img src="images/screenshots/filetoptimizer.jpg" alt=""/></p>
+                  <h4>Upload an optimized avatar<br>
+                  </h4>
+                  <p>Finally it is recommended to upload an optimized image as avatar, so you must click edit my profile and go to the bottom of that page:</p>
+                  <p><img src="images/screenshots/optimized-avatar.png" alt=""/> </p>
+                  <p>The purpose is pretty simple, gravatar doesn't set and expiration time for resources and your avatar always loads externally. This will give an small speed bost to achieve better scores on Google.</p>
+                  <h3 id="o-3">9.3 How to enable AMP</h3>
+                  <p>On <strong>version 3.0 Breek</strong> is compatible with <strong>AMP official plugin</strong>, this will increase the organic SEO and overall speed. The most important about this plugin, all scripts will not work anymore so you must evaluate if you want to sacrifice funtionality over visibility and speed, the main benefits are listed here: <a href="https://www.addthis.com/academy/benefits-of-accelerated-mobile-pages/" target="_blank">https://www.addthis.com/academy/benefits-of-accelerated-mobile-pages/</a></p>
+                  <p>If you have any element that is not compatible with AMP, it is recommended to remove it with Custom CSS, you can hire a developer if you are not fluent in CSS here: <a href="https://studio.envato.com/" target="_blank">https://studio.envato.com/</a></p>
+                  <p>The steps to fully enable <strong>AMP</strong> are:</p>
+                  <p><strong>1.-</strong> Go to your wp-admin -&gt; plugins section and search for &quot;amp&quot; install and activate it.</p>
+                  <p><img src="images/screenshots/amp1.png"><strong></strong></p>
+                  <p><strong>2.- </strong>Go to the new section called <strong>&quot;AMP&quot;</strong> and enable <strong>&quot;Transitional Mode&quot;</strong> and uncheck <strong>&quot;Serve all templates as AMP&quot;</strong></p>
+                  <p><img src="images/screenshots/amp2.png"></p>
+                  <p><strong>Note: </strong>for the moment Breek is compatible with &quot;<strong>Singular</strong>&quot;, &quot;<strong>Homepage</strong>&quot; and &quot;<strong>Blog</strong> (in case you have a different page)&quot;.</p>
+                  <p><strong>3.- </strong>Enable <strong>AMP</strong> from <strong>&quot;Theme Options&quot; section</strong>, optionally you can disable <strong>Google Fonts</strong> to make the pages even faster.</p>
+                  <p><img src="images/screenshots/amp3.png"></p>
+                  <p><strong>4.- </strong>Finally on a mobile emulator or in your cellphone you can check ?amp parameter is appended to the main url (that is your AMP url):</p>
+                  <p><img src="images/screenshots/amp4.png"></p>
+                  <p><strong>Note: AMP</strong> is intended to be used only on <strong>mobile devices</strong>, desktop features will not work. By default Google prioritize AMP url and it will automatically detect if is a Mobile Device, in that case it will serve that <strong>AMP URL</strong>.</p>
+                  <h2 id="fonts">10. Fonts used</h2>
+                  <ul>
+                    <li><em>Roboto</em> - <a href="https://fonts.google.com/specimen/Roboto">https://fonts.google.com/specimen/Roboto</a>                  </li>
+                    <li><em>Poppins</em> - <a href="https://fonts.google.com/specimen/Poppins">https://fonts.google.com/specimen/Poppins</a></li>
+                  </ul>
+                      <h2 id="credits">11. Credits.</h2>
+                      <h4>Fonts Icons</h4>
+                      <p>By <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow" target="_blank">Font Awesome</a></p>
+                  <h4>Images </h4>
+                      <p><strong>Unsplash:</strong> <a href="http://unsplash.com/" target="_blank">http://unsplash.com/</a> and <a href="http://pixabay.com/" target="_blank">pixabay</a></p>
+                      <h2 id="support">12. Support</h2>
+                      <p>If you have any questions, please use our profile contact form on Envato <a href="http://themeforest.net/user/estudiopatagon" target="_blank">http://themeforest.net/user/estudiopatagon</a></p>
+                      <p>In case you find any bug, issue or just having some problems with theme, use our ticket system: <a href="https://estudiopatagon.ticksy.com/">https://estudiopatagon.ticksy.com/</a>                </p>
+                </div>
+                <!-- start: #theme-setup -->
+            </div>
+            <!-- end: .panes -->
+            <div class="clear"></div>
+        </div>
+        <!-- end: .content -->
+        <div class="clear"></div>
+        <footer id="footer">
+            <a href="http://estudiopatagon.com?ref=EstudioPatagon" target="_blank">Estudio Patagon Themes &copy;2020</a></footer>
+        <div class="clear"></div>
+    </div>
+    <!-- end: #wrapper -->
+</body>
+</html>
